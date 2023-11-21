@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dapao.mapper.EntMapper">
+	<resultMap type="TradeVO" id="resultMap">
+		<result column="tr_no" property="tr_no" />
+		<result column="tr_sell_ent" property="tr_sell_ent" />
+		<result column="tr_sell_us" property="tr_sell_us" />
+		<result column="us_id" property="us_id" />
+		<result column="tr_prod" property="tr_prod" />
+		<result column="tr_item" property="tr_item" />
+		<result column="tr_price" property="tr_price" />
+		<result column="tr_buy_state" property="tr_buy_state" />
+		<result column="tr_sell_state" property="tr_sell_state" />
+		<result column="tr_date" property="tr_date" />
+		<collection property="prodVO" resultMap="prodVO" />
+
+		<!-- 1 : 다 관계의 경우 데이터 매핑시켜준다. association => 1 : 1 관계 collection => 1 : 
+			다 관계 (한명의 유저가 작성한 글 목록) 일반 컬럼과 pk 구분 가능 pk 칼럼에게는 result 아닌 id 사용 -->
+
+	</resultMap>
+	<resultMap type="ProdVO" id="prodVO">
+		<!-- <result column="prod_no" property="prod_no"/> -->
+		<!-- <result column="own_id" property="own_id"/> -->
+		<result column="prod_name" property="prod_name" />
+		<result column="prod_price" property="prod_price" />
+	</resultMap>
+	<!-- 상점메인화면 수정 -->
+	<update id="entUpdate">
+		update ent
+		set ent_notice = #{ent_notice}, ent_info =
+		#{ent_info}, ent_img =
+		#{ent_img},
+		ent_ot = #{ent_ot}, ent_ct =
+		#{ent_ct}
+		where own_id = #{own_id}
+	</update>
+	<!-- 상점메인화면 수정 -->
+
+	<!-- 상점 리스트 -->
+	<select id="listEnt" resultType="EntVO">
+		select * from ent
+		where own_id =
+		#{own_id}
+	</select>
+	<!-- 상점 리스트 -->
+
+	<!-- 리뷰글 조회 -->
+	<select id="listReview" resultType="ReviewVO">
+		select * from review
+		where
+		own_id=#{own_id}
+	</select>
+	<!-- 리뷰글 조회 -->
+
+	<!-- 페이징된 검색조건에 따른 주문리스트 조회 -->
+	<select id="searchTradeCount" resultType="int">
+		select count(*)
+		from trade t inner join product p
+		on t.tr_prod=p.prod_no
+		where p.own_id= #{p_vo.own_id}
+		<if test='p_vo.prod_name != null and p_vo.prod_name != ""'>
+			AND p.prod_name like concat('%',#{p_vo.prod_name},'%')
+		</if>
+		<if test='t_vo.tr_no != null'>
+			AND t.tr_no = #{t_vo.tr_no}
+		</if>
+	</select>
+	<!-- 페이징된 검색조건에 따른 주문리스트 조회 -->
+
+	<!-- 페이징된 검색조건에 따른 주문리스트 조회 -->
+	<select id="searchTrade" parameterType="TradeVO"
+		resultMap="resultMap">
+		select * 
+		from trade t inner join product p 
+		on t.tr_prod=p.prod_no 
+		where p.own_id= #{p_vo.own_id} 
+		<if test='p_vo.prod_name != null and p_vo.prod_name != ""'>
+			AND p.prod_name like CONCAT('%',#{p_vo.prod_name},'%') 
+		</if>
+		<if test='t_vo.tr_no != null and t_vo.tr_no != ""'>
+			AND t.tr_no = #{t_vo.tr_no} 
+		</if>
+		order by t.tr_no 
+		limit #{cri.pageStart},#{cri.pageSize} 
+	</select>
+	<!-- 페이징된 검색조건에 따른 주문리스트 조회 -->
+
+	<!-- 주문 환불 코인이동 -->
+	<update id="refund">
+		update us u, ent e
+		set u.us_coin = u.us_coin+#{tr_price}, 
+		e.ent_coin = e.ent_coin-#{tr_price} 
+		where e.own_id=#{tr_sell_ent} 
+		and u.us_id=#{us_id}
+	</update>
+	<!-- 주문 환불 코인이동 -->
+	<!-- 주문 환불 확정 -->
+	<update id="tradeRefund">
+		update trade 
+		set tr_sell_state = 2 
+		where tr_no = #{tr_no}
+	</update>
+	<!-- 주문 환불 확정 -->
+	<!-- 아이디중복확인 -->
+	<select id="checkId" resultType="int">
+		select count(own_id) from ent 
+		where own_id=#{own_id}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="entJoin">
+		insert into
+		ent(own_id,own_name,own_pw,own_tel,own_email,ent_name,ent_cate,ent_addr,ent_mo,ent_file)
+		values(#{own_id},#{own_name},#{own_pw},#{own_tel},#{own_email},#{ent_name},#{ent_cate},#{ent_addr},#{ent_mo},#{ent_file})
+	</insert>
+
+	<!-- 로그인 -->
+	<select id="entLogin" resultType="EntVO">
+		select * from ent
+		where own_id=#{own_id}
+	</select>
+	
+	<!-- 아이디 조회 -->
+	<select id="ownidCk" resultType="int">
+		select count(*)
+		from ent
+		where own_id=#{own_id}
+	</select>
+	
+	<!-- 정보조회 -->
+	<select id="ownInfo" resultType="EntVO">
+		select * from ent 
+		where own_id=#{own_id}
+	</select>
+	
+	<!-- 해당상점 리뷰조회 -->
+	<select id="entReviewList" resultType="ReviewVO">
+		select * from review 
+		where rv_own_id = #{own_id}
+	</select>
+	<!-- 상점에서 주문 -->
+	<insert id="purchase" parameterType="map">
+		insert into trade(us_id, tr_sell_ent, tr_prod, tr_price) 
+		values(#{us_id},#{own_id},#{prod_no},#{prod_price})
+	</insert>
+	<!-- 상점에서 주문 -->
+	<!-- 판매완료 -->
+	<update id="tradePurchase">
+		update trade
+		set tr_sell_buy = 1
+		where tr_no = #{tr_no}
+	</update>
+	<!-- 판매완료 -->
+	<insert id="entAd">
+		insert into ad(own_id, ad_board,ad_upload) 
+		values(#{own_id},0, #{ad_upload})
+	</insert>
+
+	<!-- 비밀번호 변경 -->
+	<update id="changePw">
+		update ent
+		set own_pw=#{own_pw}
+		where own_id=#{own_id} and own_email=#{own_email}
+	</update>
+  
+	 <!-- 코인 충전 -->
+  <update id="coinCharge">
+  	update ent set ent_coin = ent_coin + #{pay_price} 
+  	where own_id = #{own_id } 
+  </update>
+    <insert id="coinChargePay">
+  	insert into pay(imp_uid ,pay_uid ,pay_kind ,pay_price ,own_id ,pay_con ,pay_pg, pay_card, pay_method) 
+  	values(#{imp_uid },#{pay_uid },#{pay_kind },#{pay_price },#{own_id },#{pay_con },#{pay_pg},#{pay_card},#{pay_method})
+  </insert>
+  
+  <select id="entCoin" resultType="Integer">
+  	select ent_coin from ent 
+  	where own_id=#{own_id}
+  </select>
+  <select id="entExpAd" resultType="Integer">
+  	select count(*) 
+  	from ad 
+  	where own_id=#{own_id} 
+  	and ad_board=1
+  </select>
+  
+</mapper>

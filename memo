@@ -1,0 +1,397 @@
+STS3 버전 다운로드
+
+https://github.com/spring-attic/toolsuite-distribution/wiki/Spring-Tool-Suite-3
+
+Spring Tool Suite 3.9.12 (New and Noteworthy)
+>
+full distribution on Eclipse 4.14
+
+https://download.springsource.com/release/STS/3.9.12.RELEASE/dist/e4.14/spring-tool-suite-3.9.12.RELEASE-e4.14.0-win32-x86_64.zip
+ 파일 다운로드 => 압출풀기 
+
+
+*  스프링 프레임워크 (Spring Framework)
+
+- 프레임워크 : 구조,틀
+     => 소프트웨어적 프레임워크 : 기능,클래스,인터페이스등을
+       미리 만들어놓고 제공하는 반제품
+     => 어느정도 완성되어 있는 코드
+
+-  경량프레임워크  <->  중량프레임워크(EJB)
+
+- 주요기능
+  Spring Core : 다른기능과 설정을 분리하기위한 IoC기능을 제공한다
+  Spring Context : 애플리케이션에서 객체(빈Bean)를 접근 하는 방법 제공
+  Spring DAO : JDBC기능의 편의성 제공
+  Spring ORM : DB프레임워크 제공 -> 하이버네이트/마이바티스(영속성 프레임워크)
+  Spring AOP : 관점지향 프로그래밍 제공
+  Spring WEB : 웹 애플리케이션 개발에 필요한 정보 제공
+  Spring WebMVC : 스프링에서 MVC를 구현할수 있도록 하는 기능 제공
+
+* IoC ( Inversion of Control ) 
+    : 제어의 역행 => 객체를 직접 생성X,스프링이 생성O 사용만
+                        =>애플리케이션 간의 느슨한 결합 제공
+
+* DI (Dependency Injection)
+    : 의존성 주입 => 객체,클래스를 직접 개발X, 프레임워크가 생성해서 사용하도록 제공
+
+* AOP (Aspect-Oriented Programming) 
+   : 관점 지향 프로그래밍 => 개발 외적인 요소(보안,로깅,..)를 모두 스프링에서 처리
+                                        주기능/보조기능을 분리해서 개발하도록 제공
+
+*  강한결합 / 약한결합
+  - 강한결합 : 각각의 클래스끼리의 관련도가 높다 => 변경사항 발생시 큰문제  
+    (tightly coupled) 직접적인 객체 생성
+  - 약한결합 : 각각의 클래스끼리의 관련도가 낮다 => 활용도 높은 객체 생성 
+    (loosely coupled) 생성된 객체를 가져다가 사용
+
+
+
+<bean id="msgBean1" class="com.itwillbs.ex.HelloMsgBean"/>
+ => 아래코드 처럼 객체를 직접 생성
+ HelloMsgBean msgBean1 = new HelloMsgBean();
+
+----------------------------------------
+
+1) Create new Spring Starter Project
+ => Spring boot 프로젝트(간단버전)
+  - 별도의 설정이 필요없음(프로젝트 생성간단)
+   -  was가 필요없음(내장서버)
+   - 응답시간이 짧음
+
+   - 기존의 방식과 다른 개발
+   - jsp 페이지 처리방식이 다름
+
+2) Spring Lagacy Project
+ => Spring 프로젝트(기본버전)
+
+ - 아직까지 실무에서 많이 사용
+  -  구글링이 쉽다(많은 자료)
+ - 기존의 회사 프로젝트를 이해하기 쉽다
+  - 모든 버전의 스프링을 사용가능
+
+  -  was가 필요함
+  - 초반이 어려움(설정 해야하는 것이 많음)
+
+
+-----------------------------------------------------
+ * JSP MVC
+
+req -> (web.xml) -> Controller<-> Model(action+DAO) <->DB
+                      ||
+                     View
+
+ * Spring MVC
+
+  req ->  Controller<-> Service <-> DAO <-> MyBatis <-> DB
+              ||
+             View
+
+
+  * Spring MVC 프로젝트 구성
+  - Presentation Layer - UI을 구성하는 계층(view-웹/모바일)
+    => Controller,View
+  - Business Layer(Service Layer) - 서비스계층(model)
+  - Data Access Layer(Persistence Layer) - 데이터 처리계층
+  - Data Base
+
+
+
+ MyBatis - SQL Mapper 라이브러리 (디비관련 라이브러리)
+          => 영속성 프레임워크이다
+ https://mybatis.org/mybatis-3/ko/index.html
+
+ - 간결한 코드 작성
+    (try-catch-finally,pstmt,rs 시간걸리는 작업 해소)
+ - SQL 구문을 분리 운영 (xml파일)
+ - Spring과의 연동이 매우 쉬움
+  - 동적SQL 작성가능 (if,for...)
+
+
+* 필요 라이브러리 (pom.xml 파일 추가)
+	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis</artifactId>
+		    <version>3.4.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis-spring</artifactId>
+		    <version>1.3.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		    <version>6.0.12</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>6.0.12</version>
+		    <scope>test</scope>
+		</dependency>
+
+.
+
+
+DriverManagerDataSource dataSource 
+   = new DriverManagerDataSource();
+
+
+
+--------------------------------------------
+* 의존객체 자동주입
+(Automatic Dependency Injection)
+ => 스프링 설정파일에서 생성된 객체를 별도의 설명없이 스프링(컨테이너)이(가) 자동으로 의존객체를 찾아서 주입하는것
+
+1) @Resource
+   - Java에서 제공하는 어노테이션(특정 프레임워크에 비종속적)
+  - 찾는순서
+      [ 이름 -> 타입 -> @Qualifier -> 실패 ]
+   - 별도의 XML 설정값이 필요
+  - 멤버변수, set메서드 사용가능
+
+2) @Autowired
+  - Spring에서 제공하는 어노테이션
+   - 찾는순서
+    [ 타입 -> 이름 -> @Qualifier -> 실패 ]
+   - 스프링기본 설정 -> 바로 사용가능
+  - 멤버변수,set메서드, 생성자,일반메서드 사용 O
+
+3) @Inject
+ - Java제공 어노테이션(특정 프레임워크에 비종속적)
+  - 찾는순서
+   [ 타입 -> @Qualifier -> 이름 -> 실패 ]
+ - 멤버변수,set메서드, 생성자,일반메서드 사용 O
+
+
+ @Qualifier 
+   => 찾으려는 대상의 타입이 여러개 존재하는 경우
+    
+<bean id="dataSource" 
+   class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  <qualifier  value="ds1">
+</bean>
+
+
+<bean id="dataSource" 
+   class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  <qualifier  value="ds2">
+</bean>
+
+
+	@Autowired  @Qualifier("ds2")
+	private DataSource ds;
+
+
+ MyBatis(iBatis)사용해서 SQL구문 실행
+
+1) XML코드를 사용해서 SQL작성 - XML코드 연결 사용
+ 장점 : sql구문 분리, 코드 유지보수가 우수함
+ 단점 : 코드의 양이 증가,관리하는 파일 증가(복잡도 증가)
+
+2) 인터페이스+어노테이션 SQL작성
+ 장점 : 별도의 코드를 작성X (DAO객체 없이 사용가능)
+ 단점 : 복잡한SQL구문 작성이 어려움,SQL구문변경시 마다 컴파일
+
+3) XML + 인터페이스를 활용 SQL구문 작성
+ 장점 : 간단한 SQL구문은 인터페이스(+어노테이션)로, 복잡한 구문은
+         XML구문으로 처리 가능
+ 단점 : 개발자마다 성향이 다름, 실력도 다름
+
+ * 도메인객체 : 프로젝트 개발에서 중요한 개념(명사)
+  =>디비의 테이블( 물리적인 환경으로 분리가능한 단위 )
+
+ * DTD : xml파일의 문서 구조를 정의
+
+  MyBatis 실행순서
+- 테이블 생성(디비연결 준비)
+- 도메인 객체 생성 & 클래스 생성(+lombok)
+- DAO 인터페이스 생성
+- 실행할 기능을 인터페이스에 추상메서드로 정의
+- Mapper.XML파일을 생성 & 이름(namespace)설정
+- Mapper에 DTD 파일을 추가
+- Mapper.XML파일에 SQL구문 작성
+- MyBatis에서 Mapper.xml파일을 연결설정
+- DAO 객체를 구현 
+- 코드 실행(호출/테스트)
+
+
+CREATE TABLE `springdb`.`tbl_member` (
+  `userid` VARCHAR(50) NOT NULL,
+  `userpw` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `useremail` VARCHAR(200) NULL,
+  `regdate` TIMESTAMP NULL DEFAULT now(),
+  `updatedate` TIMESTAMP NULL DEFAULT now(),
+  PRIMARY KEY (`userid`));
+
+ 
+
+
+* 바탕화면에 lombok.jar파일 준비후
+ CMD [java -jar lombok.jar] 명령어 실행
+
+
+-----------------------------------------------------------------------------------------------
+MemberDAOTest => DAO인터페이스 => DAO클래스 => Mapper =>(MyBatis) Mysql
+테스트		DAO	       DAOImpl      mapper               DB
+
+
+
+Controller => Service => DAO인터페이스 => DAO클래스 => Mapper =>(MyBatis) Mysql
+   |		           		DAO	       DAOImpl      mapper               DB
+ View
+
+
+* 스프링MVC 컨트롤러
+ - URI를 분석해서 적절한 컨트롤러(Action)를 찾는 작업 수행
+ - 컨트롤러에 필요한 메서드를 호출 작업 수행
+ - 컨트롤러에서 생성된 데이터를 뷰페이지로 전달 작업수행
+ - 적절한 뷰페이지 연결 수행
+ - 파라메터 자동수집 
+
+=> [개발자가 할일] 
+  특정 URI에 동작하는 컨트롤러 설계
+   서비스 객체 만들기
+   DAO 객체 만들기
+   컨트롤러에 필요한 메서드 만들기
+   뷰페이지에 전달된 데이터 처리(출력)   
+
+
+======================================================================
+이름 : mylog
+
+Context : Java
+
+설명 : 로거 객체 생성(로그 사용준비)
+
+패턴 : 
+${:import(org.slf4j.Logger,org.slf4j.LoggerFactory)}
+
+private static final Logger logger = LoggerFactory.getLogger(${enclosing_type}.class);
+
+======================================================================
+
+이름 : li
+
+Context : Java
+
+설명 : log info 출력
+
+패턴 : 
+logger.info("${cursor}");
+
+======================================================================
+
+이름 : ld
+
+Context : Java
+
+설명 : log debug 출력
+
+패턴 : 
+logger.debug("${cursor}");
+
+
+======================================================================
+ https://logging.apache.org/log4j/1.2/manual.html
+ *Log4j - Log 레벨
+ 
+ FATAL(6) - 시스템 차원에서의 심각한 문제를 출력
+ ERROR(5) - 실행중 발생한 문제를 출력
+ WARN(4) - 시스템 오류의 원인을 출력
+ INFO(3) - 실행(운영)에 필요한 출력 (로그인기록,상태등..)
+ DEBUG(2) - 개발에 필요한 디버깅용 출력
+ TRACE(1) - DEBUG보다 상세한 로깅(출력)
+ 
+** 설정한 로그 레벨보다 낮은 메세지 정보는 출력 불가능하다. 
+    높은 레벨의 메세지만 출력 가능하다.
+ => 개발 중 (DEBUG) - 개발 완료/배포 (INFO)
+ 
+======================================================================
+개발준비
+1) DB 파트
+ - 데이터베이스 생성, 계정 생성
+ - 테이블 설계 생성
+ - 더미데이터 준비/생성
+	
+2) 스프링MVC 파트
+ - 패키지 구조 설정
+ - 각 기능별 파트 분배
+ - 테스트 계획 수립
+ 
+3) 화면 파트
+ - JSP / HTML (JQ)
+ - 경로 (절대경로/상대경로) 		
+========================================================================
+
+
+- 게시판 만들기(요구사항 분석/작성)
+
+ 글 쓰기 (Create)
+ 글 리스트 조회 (Read) + 페이징처리
+ 글 본문 조회 (Read)
+ 글 수정 (Update)
+ 글 삭제 (Delete)
+ 
+ => 요구사항을 바탕으로 테이블 생성, 
+ 
+ 1) persistence 영역부터 처리하기
+ 2) service 영역 처리
+ 3) Controller 영역 처리
+ 4) view 영역 처리
+ 
+ http://localhost:8088/board/read?bno=8
+ 
+ 	@ModelAttribute("bno") int bno
+ 	=> 전달되는 파라메터 정보를 받아서
+ 		Model 객체에 저장해서 전달 (request.setAttribute())
+ 		
+ 	=> 전달받은 정보를 컨트롤러, 뷰페이지까지 한번에 전달하고 싶을때	
+ 	=> 1:N 관계일때 객체의 파라메터를 전달받을때
+ 		
+ 	@ModelParam("bno") int bno
+ 	=> 전달되는 파라메터 정보를 받는다
+ 		request.getParameter() 동작을 처리한다.
+ 		(처리결과 항상 String 타입 -> 자동형변환가능(문자열, 숫자, 날짜)
+ 		
+ 	=> 전달받은 정보를 컨트롤러에서만 사용할때 	
+ 	=> 1:1관계일때 특정 정보 하나만 전달받을때
+ 	
+ 	
+ 	<!-- 컬럼명과 VO객체를 매핑설정(기본값 생략) -->
+	<resultMap type="com.itwillbs.domain.BoardVO" id="boardMap">
+		<result property="bno" column="bno"/>
+		<result property="content" column="content"/>
+	</resultMap>	
+ 	
+	<resultMap type="com.itwillbs.domain.MemberVO" id="memberMap">
+		<id property="bno" column="bno">
+		<result property="id" column="id"/>
+		<result property="pw" column="pw"/>
+		<collectionm property="boardList" resultMap="boardMap" ></collection>
+	</resultMap>	
+	
+=======================================================================================
+프로젝트 설정
+
+ - 자바버전, 스프링버전 설정(pom.xml)
+ - 라이브러리 설치(pom.xml)
+ - root-context.xml / servlet-context.xml / web/xml
+ - 설정파일 복사
+ - 패키지 생성
+ 
+ - gitignore 파일 생성 (일부만 올려)
+	 https://www.toptal.com/developers/gitignore
+	 (windows, eclipse, java)
+ 
+ 
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.dapao.mapper.AdMapper">
+	
+	<resultMap type="com.dapao.domain.ExpVO" id="expMap">
+		<id property="own_id" column="own_id"/>
+		<result property="exp_no" column="exp_no"/>
+		<result property="exp_title" column="exp_title"/>
+		<result property="exp_content" column="exp_content"/>
+		<result property="exp_psn" column="exp_psn"/>
+		<result property="exp_psn_ch" column="exp_psn_ch"/>
+		<result property="exp_notice" column="exp_notice"/>
+		<result property="exp_state" column="exp_state"/>
+		<result property="exp_regdate" column="exp_regdate"/>
+		<result property="own_id" column="own_id"/>
+		<collection property="entList" resultMap="entMap"/>
+	</resultMap>
+	
+	<resultMap type="com.dapao.domain.EntVO" id="entMap">
+		<result property="own_id" column="own_id"/>
+		<result property="own_name" column="own_name"/>
+		<result property="own_pw" column="own_pw"/>
+		<result property="own_tel" column="own_tel"/>
+		<result property="own_email" column="own_email"/>
+		<result property="own_state" column="own_state"/>
+		<result property="ent_name" column="ent_name"/>
+		<result property="ent_cate" column="ent_cate"/>
+		<result property="ent_addr" column="ent_addr"/>
+		<result property="ent_mo" column="ent_mo"/>
+		<result property="ent_file" column="ent_file"/>
+		<result property="ent_of" column="ent_of"/>
+		<result property="ent_notice" column="ent_notice"/>
+		<result property="ent_info" column="ent_info"/>
+		<result property="ent_img" column="ent_img"/>
+		<result property="ent_ot" column="ent_ot"/>
+		<result property="ent_ct" column="ent_ct"/>
+		<result property="own_stopdate" column="own_stopdate"/>
+		<result property="ent_account" column="ent_account"/>
+		<result property="ent_stop" column="ent_stop"/>
+		<result property="ent_coin" column="ent_coin"/>
+	</resultMap>
+	
+	<select id="modalShow" resultMap="expMap">
+		select ent.ent_name,exp.* from exp join ent 
+		on exp.own_id = ent.own_id 
+		where exp.exp_state=1 
+		order by rand()
+	</select>
+	
+</mapper>  

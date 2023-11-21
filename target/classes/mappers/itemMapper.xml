@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- /mappers/ItemMapper.xml -->
+
+<!-- DTD추가 --><!-- mapper 태그를 사용할 수 있게 해준다  --><!-- 이 코드는 마이바티스 홈페이지에 가면 있다 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- mapper 태그 안에는 주석금지--> <!-- 필요한 쿼리문만 작성 -->
+  <!-- namespace정보는 외부에서 해당 mapper(xml)를 찾을 수 있는 이름 , 실제 주소가 아니다-->
+  <mapper namespace="com.dapao.mapper.ItemMapper">
+  
+  <resultMap type="com.dapao.domain.ItemVO" id="itemMap">
+  	<id property="it_no" column="it_no"/>
+  	<result property="it_no" column="it_no"/> 
+  	<result property="us_id" column="us_id"/> 
+  	<result property="it_title" column="it_title"/> 
+  	<result property="it_price" column="it_price"/> 
+  	<result property="it_content" column="it_content"/> 
+  	<result property="it_view" column="it_view"/> 
+  	<result property="it_con" column="it_con"/> 
+  	<result property="it_cate" column="it_cate"/> 
+  	<result property="it_state" column="it_state"/> 
+  	<result property="it_regdate" column="it_regdate"/> 
+  	<result property="it_outdate" column="it_outdate"/> 
+  	<result property="it_love" column="it_love"/> 
+  	<result property="tr_no" column="tr_no"/> 
+  	<collection property="fileList" resultMap="fileMap"></collection>
+  </resultMap>
+  
+  <resultMap type="com.dapao.domain.FileVO" id="fileMap">
+  	<result property="uuid" column="uuid"/>
+  	<result property="uploadPath" column="uploadPath"/>
+  	<result property="fileName" column="fileName"/>
+  	<result property="image" column="image"/>
+  	<result property="it_no" column="it_no"/>
+  	<result property="prod_no" column="prod_no"/>
+  </resultMap>
+ 
+
+  
+  <resultMap type="com.dapao.domain.UserVO" id="userMap">
+  	<result property="us_id" column="us_id"/>
+  	<result property="us_pw" column="us_pw"/>
+  	<result property="us_name" column="us_name"/>
+  	<result property="us_nickname" column="us_nickname"/>
+  	<result property="us_img" column="us_img"/>
+  	<result property="us_tel" column="us_tel"/>
+  	<result property="us_email" column="us_email"/>
+  	<result property="us_addr" column="us_addr"/>
+  	<result property="us_coin" column="us_coin"/>
+  	<result property="us_blog" column="us_blog"/>
+  	<result property="us_instar" column="us_instar"/>
+  	<result property="us_regdate" column="us_regdate"/>
+  	<result property="us_outdate" column="us_outdate"/>
+  	<result property="us_state" column="us_state"/>
+  	<result property="us_stopdate" column="us_stopdate"/>
+  	<result property="us_account" column="us_account"/>
+  	<result property="us_stop" column="us_stop"/>
+  	<result property="us_stop" column="us_stop"/>
+<!--   	<result property="itemvo" column="itemList"/>
+  	<result property="reviewList" column="reviewList"/> -->
+  	<!-- <association property="itemvo" resultMap="itemvoMap"></association> -->
+  </resultMap>
+  
+  
+  
+  
+  <update id="viewCnt">
+  	update item set it_view = it_view+1  
+  	where it_no=#{it_no}
+  </update>
+  
+  <insert id="itemWrite">
+	  insert into item(us_id,it_title,it_price,it_content,it_con,it_cate, it_latitude, it_longitude ) 
+	  values(#{us_id},#{it_title},#{it_price},#{it_content},#{it_con},#{it_cate}, #{it_latitude}, #{it_longitude})
+  </insert>
+  
+  <select id="itemWriteCheck" resultType="Integer">
+  	select max(it_no) from item 
+  	where us_id=#{us_id} 
+  </select>
+  
+  <insert id="insertFile">
+  	insert into file(uuid, uploadPath, fileName, image, it_no) 
+  	values(#{uuid},#{uploadPath},#{fileName},#{image},#{it_no})
+  </insert>
+  
+  <select id="itemSearch" resultType="ItemVO">
+  	select * from item 
+  	where it_title like CONCAT('%', #{it_title}, '%')
+  </select>
+  
+  <select id="itemCate" resultType="ItemVO">
+  	select * from item 
+  	where it_cate = #{it_cate}
+  </select>
+  
+  <select id="itemFile" resultType="FileVO">
+  	select * from file 
+  	where it_no=#{it_no} 
+  	order by file_no
+  </select>
+  
+  <select id="itemFileMain" resultType="FileVO">
+  	select * from file 
+  	where file_no=(select min(file_no) from file where it_no=#{it_no }) 
+  </select>
+  
+  <update id="itemFileMainInsert">
+  	update item set it_img = CONCAT(#{uploadPath }, '/s_',#{uuid }, '_',#{fileName } ) 
+  	where it_no = #{it_no }  
+  </update>
+  
+  <select id="itemDetail" resultType="ItemVO">
+  	select * from item 
+  	where it_no=#{it_no}
+  </select>
+  
+  <select id="sellerRv" resultType="ReviewVO">
+  	select r.*, u.us_nickname from review r join us u 
+  	on r.rv_us_id = u.us_id 
+  	where r.rv_buy_id=#{us_id}
+  </select>
+  
+  <select id="loveCount" resultType="Integer">
+  select count(*) from love 
+  where it_no=#{it_no }
+  </select>
+  
+  <select id="sellerInfo" resultType="UserVO">
+  	select * from us 
+  	where us_id=#{us_id}
+  </select>
+  
+  <select id="itemLove" resultType="int">
+  	select count(*) from love 
+  	where us_id=#{us_id} and it_no=#{it_no}
+  </select>
+  
+  <insert id="itemLoveInsert">
+  	insert into love(it_no, us_id) 
+  	values(#{it_no},#{us_id})
+  </insert>
+  
+  <delete id="itemLoveDelete">
+  	delete from love 
+  	where us_id = #{us_id} and it_no = #{it_no}
+  </delete>
+  
+  
+  <select id="sellerItem" resultType="ItemVO">
+  select * 
+  from item 
+  where us_id=#{us_id} and it_no != #{it_no} 
+  order by rand() limit 5;
+  </select>
+  
+  <select id="sameCate" resultType="ItemVO">
+  select *
+  from item 
+  where it_cate=#{it_cate} and it_no != #{it_no} 
+  order by rand() limit 5;
+  </select>
+  
+  <select id="yourInfo" resultType="UserVO">
+  	select * from us 
+  	where us_id=#{us_id}
+  </select>
+  
+  
+  <select id="yourItem" resultType="ItemVO">
+  select * from item 
+  where us_id=#{us_id} 
+  order by it_no desc;
+  </select>
+  
+  
+  <update id="coinCharge">
+  	update us set us_coin = us_coin + #{pay_price} 
+  	where us_id = #{us_id } 
+  </update>
+  
+  <insert id="coinChargePay">
+  	insert into pay(imp_uid ,pay_uid ,pay_kind ,pay_price ,us_id ,pay_con ,pay_pg, pay_card, pay_method) 
+  	values(#{imp_uid },#{pay_uid },#{pay_kind },#{pay_price },#{us_id },#{pay_con },#{pay_pg},#{pay_card},#{pay_method})
+  </insert>
+  
+  <select id="userCoin" resultType="Integer">
+  	select us_coin from us 
+  	where us_id=#{us_id}
+  </select>
+  
+  <select id="getTr_no" resultType="Integer">
+  	select max(tr_no) from trade 
+  </select>
+  
+  <update id="purchase">
+  	update us set us_coin = us_coin - #{us_coin} 
+  	where us_id = #{us_id } 
+  </update>
+  
+  <update id="itStateChange">
+  	update item set it_state = 1 , tr_no = #{tr_no } 
+  	where it_no = #{it_no } 
+  </update>
+  
+  <insert id="alarmSend">
+  	insert into alarm(us_id, al_reciver_id, al_content, al_con) 
+  	values(#{us_id }, #{al_reciver_id }, #{al_content }, #{al_con })
+  </insert>
+  
+  <select id="alarmList" resultType="AlarmVO">
+  	select * from alarm 
+  	where al_reciver_id=#{us_id} 
+  	order by al_no desc limit 5
+  </select>
+  
+  <select id="checkPur" resultType="TradeVO">
+  	select * from trade 
+  	where tr_no=#{tr_no }
+  </select>
+  
+  <insert id="itemTrade">
+  	insert into trade(us_id, tr_sell_us, tr_item, tr_buy_state, tr_sell_state, tr_price)  
+  	values(#{us_id }, #{tr_sell_us }, #{tr_item }, #{tr_buy_state }, #{tr_sell_state }, #{tr_price })
+  </insert>
+  
+  <update id="userPurchaseCancle">
+  	update trade set tr_buy_state = 2 
+  	where tr_no = #{tr_no}
+  </update>
+  
+  <update id="sellerPurchaseCancle">
+  	update trade set tr_sell_state = 2 
+  	where tr_no = #{tr_no}
+  </update>
+  
+  <update id="userPurchase">
+  	update trade set tr_buy_state = 1 
+  	where tr_no = #{tr_no}
+  </update>
+  
+  <update id="sellerPurchase">
+  	update trade set tr_sell_state = 1  
+  	where tr_no = #{tr_no}
+  </update>
+
+  <select id="sellerState" resultType="Integer">
+  	select tr_sell_state from trade 
+  	where tr_no = #{tr_no}
+  </select>
+  
+  <select id="buyerState" resultType="Integer">
+  	select tr_buy_state from trade 
+  	where tr_no = #{tr_no}
+  </select>
+  
+  <update id="itemCoinTo">
+  	update us set us_coin = us_coin + #{us_coin } 
+  	where us_id = #{us_id }
+  </update>
+  
+  <update id="itemSoldoutState">
+  	update item set it_state = 2 
+  	where it_no = #{it_no } 
+  </update>
+  
+  <update id="itemResellState">
+  	update item set it_state = 0, tr_no = 1 
+  	where it_no = #{it_no } 
+  </update>
+  
+  <update id="tradeDateUpdate">
+  	update trade set tr_date = sysdate() 
+  	where tr_no = #{tr_no } 
+  </update>
+  
+  <select id="buyerInfo" resultType="UserVO">
+  	select u.* from trade t join us u 
+  	on t.us_id = u.us_id 
+  	where t.tr_no = #{tr_no }
+  </select>
+  
+  <select id="getExpInfo" resultType="Integer">
+  	select max(exp_no) from exp 
+  	where own_id = #{own_id }
+  </select>
+  
+  
+  <insert id="expApply">
+  	insert into expus(exp_no, own_id, us_id ) 
+  	values(#{exp_no}, #{own_id}, #{us_id} )
+  </insert>
+  
+  <update id="expCountUp">
+  	update exp set exp_psn_ch = exp_psn_ch+1 
+  	where exp_no = #{exp_no } 
+  </update>
+  
+  <update id="coinRefund">
+  	update us set us_coin = us_coin-#{us_coin} 
+  	where us_id = #{us_id } 
+  </update>
+  
+  <select id="yourReview" resultType="ToTalVO">
+	  select * from review r join us u 
+	  on r.rv_buy_id = u.us_id 
+	  where r.rv_us_id = #{us_id }
+  </select>
+  
+  <update id="itemDelete" >
+	  update item set it_state = 3  
+	  where it_no = #{it_no }
+  </update>
+  
+  
+  
+  </mapper>

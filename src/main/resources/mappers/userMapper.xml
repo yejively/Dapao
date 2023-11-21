@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- UserMapper.xml -->
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.dapao.mapper.UserMapper">
+  
+<!--   <resultMap id="adMap" type="com.dapao.domain.AdVO" >
+     <id property="ad_no" column="ad_no"/>
+     <result property="own_id" column="own_id"/>
+     <result property="ad_board" column="ad_board"/>
+     <result property="ad_state" column="ad_state"/>
+     <result property="ad_view" column="ad_view"/>
+     <result property="ad_regdate" column="ad_regdate"/>
+     <result property="ad_update" column="ad_update"/>
+     <result property="ad_upload" column="ad_upload"/>
+     <association property="adEntList" resultMap="entMap"></collection>
+  </resultMap>  -->
+  
+  
+<!--    <resultMap id="entMap" type="com.dapao.domain.EntVO" >
+     <id property="own_id" column="own_id"/> 
+     <result property="own_name" column="own_name"/> 
+     <result property="own_pw" column="own_pw"/> 
+     <result property="own_tel" column="own_tel"/> 
+     <result property="own_email" column="own_email"/> 
+     <result property="own_state" column="own_state"/> 
+     <result property="ent_name" column="ent_name"/> 
+     <result property="ent_cate" column="ent_cate"/> 
+     <result property="ent_addr" column="ent_addr"/> 
+     <result property="ent_mo" column="ent_mo"/> 
+     <result property="ent_file" column="ent_file"/> 
+     <result property="ent_of" column="ent_of"/> 
+     <result property="ent_notice" column="ent_notice"/> 
+     <result property="ent_info" column="ent_info"/> 
+     <result property="ent_img" column="ent_img"/> 
+     <result property="ent_time" column="ent_time"/> 
+     <result property="ent_account" column="ent_account"/> 
+     <result property="ent_stop" column="ent_stop"/> 
+     
+     <collection property="adList" resultMap="adMap"></collection>
+     
+  </resultMap> 
+  
+  <resultMap type="com.dapao.domain.AdVO" id="adMap">
+     <result property="ad_no" column="ad_no"/>
+     <result property="own_id" column="own_id"/>
+     <result property="ad_board" column="ad_board"/>
+     <result property="ad_state" column="ad_state"/>
+     <result property="ad_view" column="ad_view"/>
+     <result property="ad_regdate" column="ad_regdate"/>
+     <result property="ad_update" column="ad_update"/>
+     <result property="ad_upload" column="ad_upload"/>
+  </resultMap> -->
+  
+  <!-- 현재 시스템 시간 -->
+   <select id="getTime" resultType="string">
+      select now() 
+  </select>
+  
+  <!-- 메인 -->
+     <!-- 인기 가게(광고) -->
+     <select id="adList" resultType="EntVO">
+        select e.* from ad a join ent e 
+        on a.own_id = e.own_id 
+        where  (a.ad_state=0) and (a.ad_board = 0) and (date_format(a.ad_upload, '%y/%m/%d') >= date_format(now(), '%y/%m/%d')) 
+        order by rand() limit 5
+      </select> 
+   
+  
+     <!-- 중고거래 목록(메인) -->
+     <select id="itemList" resultType="ItemVO">
+        select * from item
+      </select>
+   
+  
+     <!-- 찜 목록 -->
+     <select id="loveList" resultType="TotalVO">
+        select l.* , i.* from love l join item i 
+        on l.it_no = i.it_no 
+        where l.us_id=#{us_id}
+      </select>
+   
+   
+   
+  <!-- 유저 -->
+<!-- 회원가입 -->
+
+   <insert id="userJoin">
+      insert into us(us_id,us_pw,us_name,us_email,us_tel,us_addr,us_nickname) 
+      values(#{us_id},#{us_pw},#{us_name},#{us_email},#{us_tel},#{us_addr},#{us_nickname})
+   </insert>
+
+
+
+   <!-- 로그인 -->
+
+   <select id="userLogin" resultType="UserVO">
+      select * from us 
+      where us_id=#{us_id} and us_pw=#{us_pw}
+   </select>
+
+
+
+   <!-- 회원정보 조회 -->
+   <select id="userInfo" resultType="UserVO">
+      select * from us 
+      where us_id=#{us_id}
+   </select>
+
+
+   <!-- 회원정보 수정 -->
+
+   <update id="userInfoUpdate">
+      update us  
+      set us_id=#{us_id},us_pw=#{us_pw},us_name=#{us_name},us_email=#{us_email},us_tel=#{us_tel},us_addr=#{us_addr},us_nickname=#{us_nickname} 
+      where us_id=#{us_id}
+   </update>
+
+
+<!-- 탈퇴시 비밀번호 받고 비교 -->
+<select id="pwCheck2">
+   select * 
+   from us 
+   where us_id=#{us_id} and us_pw=#{us_pw}
+</select>
+
+
+
+
+   <!-- 회원탈퇴 -->
+
+   <update id="userDelete">
+      update us set us_state = 2 
+      where us_id=#{us_id} and us_pw=#{us_pw}
+   </update>
+   
+   
+
+   <!-- 마이페이지 내 판매글 불러오기 -->
+      <select id="userSellList" resultType="ItemVO">
+      select * 
+      from item 
+      where us_id=#{us_id}
+         
+      </select>
+      
+      
+   <!-- 마이페이지 내 리뷰 목록 불러오기 -->
+   <select id="userReview" resultType="ReviewVO">
+      select rv_no, rv_own_id, rv_us_id, rv_content, rv_star, rv_regdate 
+      from review 
+      where rv_buy_id=#{us_id}
+   </select>
+   
+   
+   <!-- 아이디 찾기 -->
+   <select id="userFindId" resultType="String">
+      select us_id 
+        from us 
+        where us_name=#{us_name} and us_tel=#{us_tel}   
+   </select>
+   
+   <!--    select t.it_no, t.it_title, t.us_id, t.it_content, t.it_love 
+   from us u, love l, item t 
+   where u.us_id =#{us_id} AND u.us_id = l.us_id AND t.it_no = l.it_no -->
+   <!-- 마이페이지 내 찜 목록 불러오기 -->
+   <select id="userLoveList" resultType="ItemVO">
+   select t.it_no, t.it_title, t.us_id, t.it_content, t.it_love 
+   from us u, love l, item t  
+   where u.us_id =#{us_id} AND u.us_id = l.us_id AND t.it_no = l.it_no
+   </select>
+   
+   
+   <!-- 마이페이지 대나무페이 결제 목록  -->
+   <select id="userBuyCoin" resultType="PayVO">
+   select pay_id, pay_price, pay_kind, pay_date, pay_method 
+   from pay 
+   where pay_id=#{us_id} and pay_kind = "대나무페이"
+   
+   </select>
+   
+   <!--  마이페이지 내 구매목록  -->
+   <select id="userBuyList" resultType="TradeVO">
+   select tr_no, tr_sell_ent, tr_sell_us, tr_price, tr_date 
+   from trade 
+   where us_id=#{us_id}
+   
+   </select>
+   
+   
+   <!-- 마이페이지 내 신고목록 -->
+   <select id="userCs" resultType="AcVO">
+   select ac_no, ac_own_id, ac_us_id, ac_cate, ac_regdate, ac_state, ac_result 
+   from ac 
+   where us_id=#{us_id}
+   </select>
+   
+   <!-- 비밀번호 찾기 -->
+   <select id="userFindPw" resultType="String">
+        select us_pw 
+        from us 
+        where us_id=#{us_id} and us_email=#{us_email}   
+   </select>
+   
+   
+
+</mapper>
+
+
+

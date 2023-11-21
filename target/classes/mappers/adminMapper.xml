@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dapao.mapper.AdminMapper">
+
+	<!-- 회원관리 - 개인회원정보출력 -->
+	<select id="userInfo" resultType="UserVO">
+		select * from us where
+		us_id=#{us_id}
+	</select>
+
+	<!-- 회원관리 - 회원정지부여 -->
+	<update id="userStop">
+		update us set us_stopdate=date_add(now(), interval
+		#{us_stopdate} day) where us_id=#{us_id};
+	</update>
+
+	<!-- 회원관리 - 회원정지(회원상태변경) + 정지횟수+1 -->
+	<update id="userStateUpdate">
+		update us set us_state=1,us_account=us_account+1 where us_id=#{us_id}
+	</update>
+
+	<!-- 회원관리 - 회원탈퇴(회원상태변경) -->
+	<update id="userDelete">
+		update us set us_state=2 where us_id=#{us_id}
+	</update>
+
+	<!-- 회원관리 - 페이징처리 후 회원리스트 조회 -->
+	<select id="userListCri" resultType="UserVO">
+		select * from us
+		where us_id!='admin' 
+		<if test="keyword != null">
+			and us_id like concat('%',#{keyword},'%') 
+		</if>
+		order by us_id, us_regdate
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<!-- 회원관리 - 전체회원수 조회 -->
+	<select id="userCount" resultType="int">
+		select count(*) from us 
+		<if test="keyword != null">
+			where us_id like concat('%',#{keyword},'%') 
+		</if>
+	</select>
+
+	<!-- 사업자관리 - 모든사업자정보출력 -->
+	<select id="ownerList" resultType="EntVO">
+		select * from ent 
+		<if test="keyword != null">
+			where own_name like CONCAT('%',#{keyword},'%') 
+		</if>
+		order by own_state 
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<!-- 사업자 총 개수 조회 -->
+	<select id="ownerCount" resultType="int">
+		<![CDATA[
+		select count(*) from ent 
+		where own_id > 0 
+		]]>
+		<if test="keyword != null">
+			and own_name like CONCAT('%',#{keyword},'%') 
+		</if>
+	</select>
+
+	<!-- 사업자관리 - 사업자정보출력 -->
+	<select id="ownerInfo" resultType="EntVO">
+		select * from ent where
+		own_id=#{own_id}
+	</select>
+
+	<!-- 사업자 관리 - 사업자정지 -->
+	<update id="ownerStop">
+		update ent set own_stopdate=date_add(now(), interval #{own_stopdate} day), own_state=1, ent_account=ent_account+1 
+		where own_id=#{own_id}
+	</update>
+	
+	<!-- 사업자 관리 - 승인요청 처리 -->
+	<update id="ownerApprove">
+		update ent set own_state=0 
+		where own_id=#{own_id}
+	</update>
+  
+	<!-- 사업자 관리 - 사업자 탈퇴 -->
+	<update id="ownerInfoDelete">
+		update ent set own_state=2 
+		where own_id=#{own_id}
+	</update>
+
+	<!-- FAQ&공지 관리 - FAQ 리스트 -->
+	<select id="FAQList" resultType="CsVO">
+		select * from cs 
+		where cs_board = 1 
+		<if test="keyword != null">
+			and cs_title like concat('%',#{keyword},'%') 
+		</if>
+		order by cs_no, cs_regdate 
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<!-- FAQ&공지 관리 - cs 1개 정보 -->
+	<select id="csInfo" resultType="CsVO">
+		select * from cs where cs_no =
+		#{cs_no}
+	</select>
+	
+	<!-- FAQ&공지 관리 - cs 글 삭제 -->
+	<delete id="csDelete">
+		delete from cs where cs_no=#{cs_no}
+	</delete>
+	
+	<!-- FAQ&공지 관리 - FAQ 글쓰기 -->
+	<insert id="FAQWrite">
+		insert into cs
+		(cs_title,cs_content,cs_board,cs_group)
+		values(#{cs_title},#{cs_content},1,#{cs_group})
+	</insert>
+
+	<!-- FAQ&공지 관리 - cs정보 수정 -->
+	<update id="csInfoUpdate">
+		update cs
+		set cs_title=#{cs_title}, cs_content=#{cs_content},cs_update=now()
+		where cs_no=#{cs_no}
+	</update>
+
+	<!-- FAQ&공지 관리 - FAQ 글 총 개수 조회 -->
+	<select id="FAQCount" resultType="int">
+		select count(*) from cs 
+		where cs_board=1 
+		<if test="keyword != null">
+			and cs_title like concat('%',#{keyword},'%') 
+		</if>
+	</select>
+
+	<!-- FAQ&공지 관리 - notice 글 총 개수 조회 -->
+	<select id="noticeCount" resultType="int">
+		select count(*) from cs
+		where cs_board=0 
+		<if test="keyword != null">
+			and cs_title like concat('%',#{keyword},'%') 
+		</if>
+	</select>
+
+	<!-- FAQ&공지 관리 - notice 리스트 -->
+	<select id="noticeList" resultType="CsVO">
+		select * from cs
+		where cs_board = 0 
+		<if test="keyword != null">
+			and cs_title like concat('%',#{keyword},'%') 
+		</if>
+		order by cs_no, cs_regdate
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<!-- FAQ&공지 관리 - cs 등록 -->
+	<update id="csUpload">
+		update cs set cs_state=1
+		where cs_no=#{cs_no}
+	</update>
+
+	<!-- FAQ&공지 관리 - cs 등록해제 -->
+	<update id="csRemove">
+		update cs set cs_state=0
+		where cs_no=#{cs_no}
+	</update>
+	
+	<!-- FAQ&공지 관리 - notice 글쓰기 -->
+	<insert id="noticeWrite">
+		insert into cs
+		(cs_title,cs_content,cs_board,cs_group)
+		values(#{cs_title},#{cs_content},0,#{cs_group})
+	</insert>
+	
+	<!-- 리뷰관리 - 리뷰리스트 -->
+	<select id="reviewList" resultType="ReviewVO">
+		select * from review 
+		<if test="keyword != null">
+			where rv_no like concat('%',#{keyword},'%') 
+		</if>
+		order by rv_no, rv_regdate 
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 리뷰관리 - 리뷰 글 총 개수 조회 -->
+	<select id="reviewCount" resultType="int">
+		<![CDATA[
+		select count(*) from review 
+		where rv_no > 0 
+		]]>
+		<if test="keyword != null">
+			and rv_no like concat('%',#{keyword},'%') 
+		</if>
+	</select>
+	
+	<!-- 리뷰관리 - 리뷰 글 1개정보 -->
+	<select id="reviewInfo" resultType="ReviewVO">
+		select * from review where rv_no=#{rv_no}
+	</select>
+	
+	<!-- 리뷰관리 - 리뷰삭제 -->
+	<update id="reviewDelete">
+		update review set rv_state=1,rv_outdate=now() 
+		where rv_no=#{rv_no}
+	</update>
+	
+	<!-- 회원상품관리 - 글 총 개수 조회 -->
+	<select id="itemCount" resultType="int">
+		select count(*) from item 
+		<if test="keyword != null">
+			where us_id like concat('%',#{keyword},'%') 
+		</if>
+	</select>	
+	
+	<!-- 회원상품관리 - 리스트조회 -->
+	<select id="itemList" resultType="ItemVO">
+		select * from item 
+		<if test="keyword != null">
+			where us_id like concat('%',#{keyword},'%') 
+		</if>
+		order by it_no, it_regdate 
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 회원상품관리 - 상품삭제(글내리기) -->
+	<update id="itemDelete">
+		update item set it_state=2, it_outdate=now() where it_no=#{it_no}
+	</update>
+	
+	<!-- 사업자상품관리 - 글 총 개수 조회 -->
+	<select id="prodCount" resultType="int">
+		select count(*) from product 
+		<if test="keyword != null">
+			where own_id like concat('%',#{keyword},'%') 
+		</if>
+	</select>	
+	
+	<!-- 회원상품관리 - 리스트조회 -->
+	<select id="prodList" resultType="ProdVO">
+		select * from product 
+		<if test="keyword != null">
+			where own_id like concat('%',#{keyword},'%') 
+		</if>
+		order by prod_no 
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 회원상품관리 - 상품삭제(글내리기) -->
+	<update id="prodDelete">
+		update product set prod_state=2, prod_outdate=now() where prod_no=#{prod_no}
+	</update>
+	
+	<!-- 신고관리 - 신고리스트 -->
+	<select id="acList" resultType="AcVO">
+		select * from ac 
+		<if test="keyword != null">
+			where us_id like concat('%',#{keyword},'%') 
+		</if>
+		order by ac_no, ac_regdate 
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 신고관리 - 신고 총 개수 조회 -->
+	<select id="acCount" resultType="int">
+		<![CDATA[
+		select count(*) from ac 
+		where ac_no > 0 
+		]]>
+		<if test="keyword != null">
+			and ac_no like concat('%',#{keyword},'%') 
+		</if>
+	</select>
+	
+	<!-- 신고관리 - 신고 1개 글 조회 -->
+	<select id="acInfo" resultType="AcVO">
+		select * from ac 
+		where ac_no=#{ac_no}
+	</select>
+	
+	<!-- 신고관리 - 접수 처리 -->
+	<update id="acHandling">
+		update ac set ac_state=1 
+		where ac_no=#{ac_no}
+	</update>
+	
+	<!-- 신고관리 - 신고 처리상태 업뎃(user 조회) -->
+	<select id="acResultSelectUserId" resultType="String">
+		select ac_us_id 
+		from ac 
+		where ac_no=#{ac_no}
+	</select>	
+	
+	<!-- 신고관리 - 신고 user 처리상태 업뎃 -->
+	<update id="acResultUserUpdate">
+		update us join ac on us.us_id = ac.ac_us_id 
+		set us.us_stopdate=date_add(now(), interval #{stop} day), us.us_account=us_account+1, ac.ac_result=#{acVo.ac_result},us.us_state=1, ac.ac_state=1 
+		where ac.ac_no=#{acVo.ac_no}
+	</update>
+	
+	<!-- 신고관리 - 신고 user 글 쓰기 -->
+	<insert id="acUserWrite">
+		insert into ac(us_id,ac_us_id,ac_cate,ac_content,ac_item) 
+		values(#{us_id},#{ac_us_id},#{ac_cate},#{ac_content},#{ac_item})
+	</insert>
+		
+	<!-- 신고관리 - us_id -> us_nikname 조회 -->
+	<select id="getNickname" resultType="String">
+		select us_nickname from us where us_id=#{us_id}
+	</select>
+	
+	<!-- 체험단관리 - 체험단 리스트 -->
+	<select id="expList" resultType="ExpVO">
+		select * from exp 
+		<if test="keyword != null">
+			where exp_title like concat('%',#{keyword},'%') 
+		</if>
+		order by exp_no, exp_regdate 
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<!-- 체험단관리 - 체험단 글개수 조회 -->
+	<select id="expCount" resultType="int">
+		<![CDATA[
+		select count(*) from exp 
+		where exp_no > 0 
+		]]>
+		<if test="keyword != null">
+			and exp_title like concat('%',#{keyword},'%') 
+		</if>
+	</select>
+	
+	<!-- 체험단관리 - 체험단 글 1개 정보 -->
+	<select id="expInfo" resultType="ExpVO">
+		select * from exp 
+		where exp_no=#{exp_no}
+	</select>
+	
+	<!-- 체험단관리 - 상태 업데이트 -->
+	<update id="expStateUpdate">
+		update exp set exp_state=1 
+		where exp_no=#{exp_no}
+	</update>
+	
+	<!-- 체험단관리 - 광고테이블 insert -->
+	<insert id="expAdInsert">
+		insert into ad (ad_board,ad_upload,own_id) 
+		values(1,date_add(now(), interval #{ad_date} day),#{own_id})
+	</insert>
+	
+	<!-- 체험단관리 - 반려 상태 업뎃 -->
+	<update id="expReturn">
+		update exp set exp_state = 2 
+		where exp_no=#{exp_no} and exp_state=0
+	</update>
+	
+	<!-- 신고취소 ac_state = 1 -->
+	<update id="acCancel">
+		update ac set ac_state=1,ac_result='접수취소' where ac_no=#{ac_no}
+	</update>
+</mapper>	

@@ -1,0 +1,196 @@
+@charset "UTF-8";
+
+.fa {
+	margin-right: 10px;
+}
+
+.table {
+	font-weight: 600;
+}
+
+.box-body {
+	padding-bottom: 7%;
+}
+
+#search {
+	float: right;
+	margin-bottom: 30px;
+}
+
+.boxList {
+	position: relative;
+	border-radius: 3px;
+	background: #ffffff;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	margin: 30px;
+	font-size: 20px;
+}
+
+.pagination-sm>li>a {
+	font-size: 20px;
+	margin-bottom: 10%;
+}
+
+.box-title {
+	font-size: 30px;
+}
+
+@font-face {
+	font-family: 'KCC-Ganpan';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCC-Ganpan.woff2')
+		format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.pContent {
+	margin: 0 0 -30px;
+	margin-top: 2%;
+	margin-left: 3%;
+	font-family: 'KCC-Ganpan';
+	color: black;
+	font-weight: inherit;
+	font-size: 30px;
+}
+
+#searchBtn {
+	border-radius: 0.5em;
+	background-color: #14571f;
+	color: white;
+	border-color: #14571f;
+}
+
+#search2 {
+	border-radius: 0.5em;
+	border-color: #14571f;
+	background-color: white;
+	font-weight: 600;
+}
+
+th, tr, td {
+	text-align: center;
+}
+
+a {
+	color: green;
+}
+
+a:hover {
+	font-weight: bolder;
+	color: green;
+}
+
+.search_area {
+	display: inline-block;
+	margin-top: 30px;
+	margin-left: 260px;
+}
+
+.search_area input {
+	height: 30px;
+	width: 250px;
+}
+
+.search_area button {
+	width: 100px;
+	height: 32px;
+}
+
+.skin-purple-light .main-header .navbar {
+	background-color: green;
+}
+
+.skin-purple-light .main-header .logo {
+	background-color: green;
+}
+
+.main-sidebar {
+	box-shadow: 8px 0px 5px -2px #14571f94;
+}
+
+.content-wrapper {
+	background-color: #f9fafc;
+}
+
+.pagination>.active>a, .pagination>.active>a:hover {
+	background-color: #14571f;
+	border-color: #14571f;
+}
+
+.skin-purple-light .main-header .logo:hover {
+	background-color: #14571f;
+}
+
+.skin-purple-light .main-header .navbar .sidebar-toggle:hover {
+	background-color: #14571f;
+}
+
+.modal-content {
+	border-radius: 2em;
+	border: 5px solid green;
+	font-weight: 600;
+	color: black;
+}
+
+.modal-title {
+	font-family: 'KCC-Ganpan';
+	text-align: center;
+}
+
+.muserInfo {
+	font-size: 18px;
+	display: inline-grid;
+	padding-left: 30px;
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+.form-control[readonly] {
+	text-align: center;
+	background-color: aliceblue;
+	color: black;
+}
+
+.btn-default {
+	background-color: aliceblue;
+}
+
+.csState {
+	border-radius: 0.3em;
+	background-color: aliceblue;
+	border: none;
+	color: green;
+}
+
+.csState:hover {
+	background-color: green;
+	color: white;
+}
+
+.acState {
+	border-radius: 0.3em;
+	background-color: aliceblue;
+	border: none;
+	color: green;
+}
+
+.acState:hover {
+	background-color: green;
+	color: white;
+}
+
+.form-control {
+	font-size: 18px;
+	color: black;
+}
+
+label {
+	font-size: 18px;
+	font-weight: 300;
+}
+
+.cs_group {
+	margin-top: 20px;
+}

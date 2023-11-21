@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dapao.mapper.CsMapper">
+
+	<!-- 회원FAQ&공지 - notice 글 총 개수 조회 -->
+	<select id="userNoticeCount" resultType="int">
+		select count(*) from cs
+		where cs_group=0 and cs_board=0 and cs_state=1
+	</select>
+
+	<!-- 회원FAQ&공지 - notice 리스트 -->
+	<select id="userNoticeList" resultType="CsVO">
+		select * from cs
+		where
+		cs_group=0 and cs_board = 0 and cs_state=1
+		order by cs_no, cs_regdate
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<!-- 회원FAQ&공지 - 공지 글 조회수 1증가 -->
+	<update id="notiViewUp">
+		update cs set cs_view=cs_view+1 where cs_no=#{cs_no}
+	</update>
+
+	<!-- 회원FAQ&공지 - notice 상세페이지 -->
+	<select id="userNotice" resultType="CsVO">
+		select * from cs
+		where
+		cs_no=#{cs_no}
+	</select>
+
+	<!-- 회원FAQ&공지 - 회원 faq 글 총 개수 조회 -->
+	<select id="userFAQCount" resultType="int">
+		select count(*) from cs
+		where cs_group=0 and cs_board=1 and cs_state=1
+	</select>
+
+	<!-- 회원FAQ&공지 - 회원 faq 리스트 -->
+	<select id="userFAQList" resultType="CsVO">
+		select * from cs
+		where
+		cs_group=0 and cs_board =1 and cs_state=1
+		order by cs_no, cs_regdate
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<!-- 사업자FAQ&공지 - notice 글 총 개수 조회 -->
+	<select id="ownNoticeCount" resultType="int">
+		select count(*) from cs
+		where cs_group=1 and cs_board=0 and cs_state=1
+	</select>
+
+	<!-- 사업자FAQ&공지 - notice 리스트 -->
+	<select id="ownNoticeList" resultType="CsVO">
+		select * from cs
+		where
+		cs_group=1 and cs_board = 0 and cs_state=1
+		order by cs_no, cs_regdate
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<!-- 회원FAQ&공지 - 사업자 faq 글 총 개수 조회 -->
+	<select id="ownFAQCount" resultType="int">
+		select count(*) from cs
+		where cs_group=1 and cs_board=1 and cs_state=1 
+	</select>
+
+	<!-- 회원FAQ&공지 - 사업자 faq 리스트 -->
+	<select id="ownFAQList" resultType="CsVO">
+		select * from cs
+		where
+		cs_group=1 and cs_board =1 and cs_state=1 
+		order by cs_no, cs_regdate
+		limit #{pageStart},#{pageSize}
+	</select>
+
+
+
+
+</mapper>	
