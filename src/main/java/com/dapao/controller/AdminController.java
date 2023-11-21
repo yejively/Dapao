@@ -39,6 +39,7 @@ public class AdminController {
 
 	// 회원관리 - 모든회원리스트정보출력 ( 페이징처리 + 페이지블럭처리 )
 	// http://localhost:8088/admin/userList
+	//
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	public void listPageGET(Criteria cri, Model model, HttpSession session) throws Exception {
 		// 페이징처리(페이지 블럭 처리 객체)
