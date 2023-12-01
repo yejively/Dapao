@@ -94,7 +94,7 @@
 
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="${pageContext.request.contextPath }/resources/index2.html"
+			<a href="${pageContext.request.contextPath }/admin/userList?page=1"
 				class="logo"> <!-- mini logo for sidebar mini 50x50 pixels --> <span
 				class="logo-mini"><img src="/resources/logo/logo.png"
 					width="50" height="50"></span> <!-- logo for regular state and mobile devices -->
