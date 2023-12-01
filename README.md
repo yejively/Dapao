@@ -30,5 +30,6 @@ SpringFramework 활용
 <img src="https://github.com/yejively/Dapao/assets/143873963/4b53c5f9-363c-4f80-96fa-9ac5fdb07b3c.gif" width="800">
 
 ---
-✔️ **체험단페이지**
+✔️ **정지 구현**
+
 
