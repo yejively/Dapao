@@ -22,7 +22,7 @@ SpringFramework 활용
 ### 프로젝트 시연
 ✔️ **관리자페이지 구현**
 ---
-<img src="https://github.com/yejively/Dapao/assets/143873963/d6c50038-6a4d-4204-86b7-2f688e1d8292.gif" width="600">
+<img src="https://github.com/yejively/Dapao/assets/143873963/ff917605-86ac-4439-8426-737689c08acf.gif" width="800">
 
 ---
 ✔️ **메인페이지 팝업 구현**
