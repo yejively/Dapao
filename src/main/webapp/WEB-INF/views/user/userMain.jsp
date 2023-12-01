@@ -200,13 +200,6 @@
 
 <div id="container"><!-- 1 -->
 
-
-
-<!-- 	
-		<h1> /user/userMain.jsp</h1>
-		<h1> 유저 메인페이지</h1>
--->
-
 	<c:if test="${empty us_id }">
 		<%@ include file="../include/userHeader.jsp" %>
 	</c:if>
@@ -214,7 +207,9 @@
 		<%@ include file="../include/userLoginHeader.jsp" %>
 		<input type="hidden" value="${us_id }" name="login"> 
 	</c:if>
-	
+	<c:if test="${us_id eq 'admin' }">
+		<c:redirect url="/admin/userList?page=1"></c:redirect>
+	</c:if>
 	
 
 	<div id="ad_section"> <!-- 2 -->

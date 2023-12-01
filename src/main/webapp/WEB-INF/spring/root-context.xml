@@ -9,16 +9,11 @@
 	<!-- 시작 : hikariCP 설정 정보(DB 연결정보) -->
 	<bean id="hikariConfig"
 	 	  class="com.zaxxer.hikari.HikariConfig">
-		  <!-- <property name="driverClassName"
-		  			value="com.mysql.cj.jdbc.Driver"/>
-		  <property name="jdbcUrl" 
-		  			value="jdbc:mysql://localhost:3306/springdb?serverTimezone=Asia/Seoul&amp;useSSL=false"/> -->
-		  			
 		  <property name="driverClassName"
 		  			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
 		  <property name="jdbcUrl" 
-		  			value="jdbc:log4jdbc:mysql://itwillbs.com/c6d2305t1_2?serverTimezone=Asia/Seoul&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"/>
-		  <property name="username" value="c6d2305t1"/>
+		  			value="jdbc:log4jdbc:mysql://localhost:3306/c6d2305t1_2?serverTimezone=Asia/Seoul&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"/>
+		  <property name="username" value="root"/>
 		  <property name="password" value="1234"/>						
 	</bean>
 	<!-- 끝 : hikariCP 설정 정보(DB 연결정보) -->
