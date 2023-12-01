@@ -174,6 +174,7 @@
 					console.log("오류");
 				}
 			});// exp_no click ajax
+			
 			$('.update').click(function() {
 				var ad_date = $('select[name=update]').val();
 				console.log("ad_date : " + ad_date);
@@ -193,8 +194,9 @@
 					error : function(data) {
 						console.log("에러");
 					}
-				}); // 승인 ajax
+				}); // 승인 ajax			
 			});// 승인 click
+			
 			$('.delete').click(function() {
 				$.ajax({
 					url : "/admin/expReturn",

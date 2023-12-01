@@ -186,11 +186,12 @@
 				}
 			});
 		});
+		
 
 		// 정지클릭했을때 정지기간부여
 		$('#stop').click(function() {
 			var us_id = $('#us_id').val();
-			var us_stopdate = $('select[name=stop]').val();
+			var us_stopdate = $('select[name=stop]').val(); // 7, 30, 100
 			$.ajax({
 				url : "/admin/userStop",
 				data : {
@@ -210,6 +211,8 @@
 				}
 			});
 		});
+		
+		
 		// 탈퇴눌렀을때 탈퇴처리
 		$('#delete').click(function() {
 			var us_id = $('#us_id').val();
