@@ -45,6 +45,12 @@
 ---
 <img src="https://github.com/yejively/Dapao/assets/143873963/ff917605-86ac-4439-8426-737689c08acf.gif" width="800">
 
+💡 회원, 사업자 관리 페이지
+- Dapao 모든 회원, 사업자 내역을 페이징처리 구현
+- 회원, 사업자 아이디 클릭시 개인 상세정보 모달 구현
+- 회원, 사업자 정지 구현<br>
+정지부여 기간(select값), 아이디의 데잍
+<img src="https://github.com/yejively/Dapao/assets/143873963/b3ce9cf2-1345-4677-8467-dd6262ecb4fc.gif" width="600">
 ---
 ✔️ **메인페이지 팝업 구현**
 ---
