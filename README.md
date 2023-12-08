@@ -28,7 +28,7 @@
      </tr>
      <tr>
         <td>API </td>
-        <td> 이메일 인증 / KaKaoMap API / PortOne 결제 API / websoket </td>
+        <td> KaKaoMap API / PortOne 결제 API / websoket </td>
      </tr>
      <tr>
         <td>협업 도구 </td>
