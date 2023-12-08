@@ -38,7 +38,7 @@
 
 ---
 ### 프로젝트 자료
-
+- [프로젝트 ppt](https://drive.google.com/file/d/1hqNQ1ZEXY04hTep0C-xsdzY2LfjHdqh7/view?usp=drive_link)
 ---
 ### 프로젝트 시연
 ✔️ **관리자페이지 구현**
