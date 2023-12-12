@@ -51,7 +51,9 @@
 - Dapao 모든 회원, 사업자 내역을 페이징처리 구현
 - 회원, 사업자 아이디 클릭시 Ajax비동기처리 개인 상세정보 모달 구현
 - 회원, 사업자 정지 구현<br>
-정지부여 기간(select값), 아이디의 값으로 Ajax비동기처리 정지구현
+<details>
+	<summary>정지구현 Ajax비동기처리 코드</summary>
+	
 ```JavaScript
 		// 정지클릭했을때 정지기간부여
 		$('#stop').click(function() {
@@ -101,7 +103,7 @@
 		#{us_stopdate} day) where us_id=#{us_id};
 	</update>
 ```
-<img src="https://github.com/yejively/Dapao/assets/143873963/b3ce9cf2-1345-4677-8467-dd6262ecb4fc.gif" width="500" height="500">
+</details>
 
 ---
 
