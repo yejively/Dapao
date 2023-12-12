@@ -37,12 +37,12 @@
   </table>
 
 ---
-### 프로젝트 자료
+## 프로젝트 자료
 - [프로젝트 ppt](https://drive.google.com/file/d/1hqNQ1ZEXY04hTep0C-xsdzY2LfjHdqh7/view?usp=drive_link)
 - [요구사항 명세서](https://docs.google.com/spreadsheets/d/1FFA3qOzB21SzG6Uqjx2orvPzGaxBtz3uDJz-5e2Ld9Q/edit?usp=sharing)
 - [ERD](https://drive.google.com/file/d/1LWLzUtz9KWl1qnz44q4ikGdRB20Zfci_/view?usp=drive_link)
 ---
-### 프로젝트 시연
+## 프로젝트 시연
 #### 관리자페이지 구현
 <img src="https://github.com/yejively/Dapao/assets/143873963/ff917605-86ac-4439-8426-737689c08acf.gif" width="800">
 
