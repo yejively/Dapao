@@ -73,9 +73,6 @@
 						location.replace("/admin/userList?page=${param.page}");
 					}
 				},
-				error : function(data) {
-					console.log("에러");
-				}
 			});
 		});
 ```
@@ -85,8 +82,6 @@
 	@RequestMapping(value = "/userStop")
 	public int userStop(@RequestParam("us_id") String us_id, @RequestParam("us_stopdate") String us_stopdate)
 			throws Exception {
-		logger.debug("us_id, us_stopdate : " + us_id + "," + us_stopdate);
-
 		UserVO vo = new UserVO();
 		vo.setUs_id(us_id);
 		vo.setUs_stopdate(us_stopdate);
@@ -117,6 +112,50 @@
 - default 접수 상태 -> 관리자의 승인, 반려 기능 구현
 
 💡 메인페이지 팝업(모달) 구현
-<img src="https://github.com/yejively/Dapao/assets/143873963/dc63db2d-3174-4bfc-b2b2-898fd639dee9.gif" width="500" height="500">
+<details>
+	<summary>팝업 구현 코드</summary>
+	
+```JavaScript
+	 $.ajax({
+    	url : "/ad/modalShow",
+ 		dataType : "json",
+ 		success : function(data){
+ 			console.log(data);
+ 			if(data != null){
+	 			$.each(data,function(index,exp){
+	 				if(exp.exp_psn_ch != exp.exp_psn){
+		 				$('#myModal').modal("show");
+		 				
+	 					$.each(exp.entList,function(idx,ent){
+	 						$('.ent_name').val(ent.ent_name);
+	 					});
+	 					$('.exp_content').append(exp.exp_content);
+	 					$('.exp_notice').append(exp.exp_notice);
+	 					$('.exp_psn_ch').val(exp.exp_psn_ch+"/"+exp.exp_psn);
+	 				}
+ 				}); 
+	 		}
+ 		},
+	});
+```
+```Java
+// 메인체험단 공고 - 출력문
+	@RequestMapping("/modalShow")
+	public List<ExpVO> modalShow() throws Exception{
+	List<ExpVO> exp = new ArrayList<ExpVO>();
+	return adService.modalShow();
+	}
+```
+```Java
+	<!-- 팝업 구현(체험단 상태 확인) -->
+	<select id="modalShow" resultMap="expMap">
+	select ent.ent_name,exp.* from exp join ent 
+	on exp.own_id = ent.own_id 
+	where exp.exp_state=1 
+	order by rand()
+	</select>
+```
+</details>
+
 
 
