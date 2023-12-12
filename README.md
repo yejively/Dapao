@@ -43,8 +43,7 @@
 - [ERD](https://drive.google.com/file/d/1LWLzUtz9KWl1qnz44q4ikGdRB20Zfci_/view?usp=drive_link)
 ---
 ### 프로젝트 시연
-<span style="background-color:#fff5b1">관리자페이지 구현</span>
----
+#### 관리자페이지 구현
 <img src="https://github.com/yejively/Dapao/assets/143873963/ff917605-86ac-4439-8426-737689c08acf.gif" width="800">
 
 💡 회원, 사업자 관리 페이지
@@ -102,8 +101,7 @@
 
 ---
 
-**체험단 관리 페이지 / 메인페이지 팝업 구현**
----
+#### 체험단 관리 페이지 / 메인페이지 팝업 구현
 <img src="https://github.com/yejively/Dapao/assets/143873963/4b53c5f9-363c-4f80-96fa-9ac5fdb07b3c.gif" width="800">
 
 💡 체험단 신청 관리 페이지
