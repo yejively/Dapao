@@ -52,6 +52,55 @@
 - 회원, 사업자 아이디 클릭시 Ajax비동기처리 개인 상세정보 모달 구현
 - 회원, 사업자 정지 구현<br>
 정지부여 기간(select값), 아이디의 값으로 Ajax비동기처리 정지구현
+```JavaScript
+		// 정지클릭했을때 정지기간부여
+		$('#stop').click(function() {
+			var us_id = $('#us_id').val();
+			var us_stopdate = $('select[name=stop]').val(); // 7, 30, 100
+			$.ajax({
+				url : "/admin/userStop",
+				data : {
+					"us_id" : us_id,
+					"us_stopdate" : us_stopdate
+				},
+				dataType : "json",
+				success : function(data) {
+					if (data == 1) {
+						alert("정상적으로 정지가 부여되었습니다.");
+						$('#myModal').modal('hide');
+						location.replace("/admin/userList?page=${param.page}");
+					}
+				},
+				error : function(data) {
+					console.log("에러");
+				}
+			});
+		});
+```
+```Java
+	// 회원관리 - 회원정지부여
+	@ResponseBody
+	@RequestMapping(value = "/userStop")
+	public int userStop(@RequestParam("us_id") String us_id, @RequestParam("us_stopdate") String us_stopdate)
+			throws Exception {
+		logger.debug("us_id, us_stopdate : " + us_id + "," + us_stopdate);
+
+		UserVO vo = new UserVO();
+		vo.setUs_id(us_id);
+		vo.setUs_stopdate(us_stopdate);
+
+		aService.userStateUpdate(us_id);
+
+		return aService.userStop(vo);
+	}
+```
+```Java
+	<!-- 회원관리 - 회원정지부여 -->
+	<update id="userStop">
+		update us set us_stopdate=date_add(now(), interval
+		#{us_stopdate} day) where us_id=#{us_id};
+	</update>
+```
 <img src="https://github.com/yejively/Dapao/assets/143873963/b3ce9cf2-1345-4677-8467-dd6262ecb4fc.gif" width="500" height="500">
 
 ---
