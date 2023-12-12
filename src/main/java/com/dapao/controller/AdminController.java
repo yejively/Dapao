@@ -521,10 +521,10 @@ public class AdminController {
 	// 체험단관리 - 상태 업뎃 및 광고테이블 insert
 	@ResponseBody
 	@RequestMapping("/expAdInsert")
-	public int expAdInsert(Integer exp_no, String own_id, String ad_date) throws Exception{
-		logger.debug("expAdInsert(Integer exp_no, String own_id, String ad_date)");
+	public int expAdInsert(Integer exp_no, String own_id) throws Exception{
+		logger.debug("expAdInsert(Integer exp_no, String own_id)");
 		aService.expStateUpdate(exp_no);
-		return aService.expAdInsert(own_id, ad_date);
+		return aService.expAdInsert(own_id);
 	}
 	
 	// 체험단관리 - 반려 상태 업뎃
