@@ -55,21 +55,21 @@
 	<summary>정지구현 Ajax비동기처리 코드</summary>
 	
 ```JavaScript
-		// 정지클릭했을때 정지기간부여
-		$('#stop').click(function() {
-			var us_id = $('#us_id').val();
-			var us_stopdate = $('select[name=stop]').val(); // 7, 30, 100
-			$.ajax({
-				url : "/admin/userStop",
-				data : {
-					"us_id" : us_id,
-					"us_stopdate" : us_stopdate
-				},
-				dataType : "json",
-				success : function(data) {
-					if (data == 1) {
-						alert("정상적으로 정지가 부여되었습니다.");
-						$('#myModal').modal('hide');
+	// 정지클릭했을때 정지기간부여
+	$('#stop').click(function() {
+		var us_id = $('#us_id').val();
+		var us_stopdate = $('select[name=stop]').val(); // 7, 30, 100
+		$.ajax({
+			url : "/admin/userStop",
+			data : {
+				"us_id" : us_id,
+				"us_stopdate" : us_stopdate
+			},
+			dataType : "json",
+			success : function(data) {
+				if (data == 1) {
+					alert("정상적으로 정지가 부여되었습니다.");
+					$('#myModal').modal('hide');
 						location.replace("/admin/userList?page=${param.page}");
 					}
 				},
@@ -117,7 +117,7 @@
 	
 ```JavaScript
 	 $.ajax({
-    	url : "/ad/modalShow",
+    		url : "/ad/modalShow",
  		dataType : "json",
  		success : function(data){
  			console.log(data);
@@ -139,20 +139,20 @@
 	});
 ```
 ```Java
-// 메인체험단 공고 - 출력문
+	// 메인체험단 공고 - 출력문
 	@RequestMapping("/modalShow")
 	public List<ExpVO> modalShow() throws Exception{
-	List<ExpVO> exp = new ArrayList<ExpVO>();
-	return adService.modalShow();
+		List<ExpVO> exp = new ArrayList<ExpVO>();
+		return adService.modalShow();
 	}
 ```
 ```Java
 	<!-- 팝업 구현(체험단 상태 확인) -->
 	<select id="modalShow" resultMap="expMap">
-	select ent.ent_name,exp.* from exp join ent 
-	on exp.own_id = ent.own_id 
-	where exp.exp_state=1 
-	order by rand()
+		select ent.ent_name,exp.* from exp join ent 
+		on exp.own_id = ent.own_id 
+		where exp.exp_state=1 
+		order by rand()
 	</select>
 ```
 </details>
