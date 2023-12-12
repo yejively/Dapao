@@ -296,9 +296,9 @@ public class AdminServiceImpl{
 	}
 	
 	// 체험단관리 - 광고테이블 insert
-	public int expAdInsert(String own_id, String ad_date) throws Exception {
+	public int expAdInsert(String own_id) throws Exception {
 		logger.debug("service : expAdInsert(String own_id, String ad_date) 호출");
-		return adao.expAdInsert(own_id, ad_date);
+		return adao.expAdInsert(own_id);
 	}
 	
 	// 체험단관리 - 반려 상태 업뎃

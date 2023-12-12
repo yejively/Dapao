@@ -182,7 +182,6 @@
 					url : "/admin/expAdInsert",
 					data : {
 						"exp_no" : $('input[name=exp_no]').val(),
-						"ad_date" : ad_date,
 						"own_id" : $('input[name=own_id]').val()
 					},
 					dataType : "json",

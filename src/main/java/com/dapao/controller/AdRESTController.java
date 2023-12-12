@@ -28,8 +28,6 @@ public class AdRESTController {
 	// 메인체험단 공고 - 출력문
 	@RequestMapping("/modalShow")
 	public List<ExpVO> modalShow() throws Exception{
-		logger.debug("modalShow() 호출");
-		logger.debug(""+adService.modalShow());
 		List<ExpVO> exp = new ArrayList<ExpVO>();
 		logger.debug("exp : "+exp);
 		return adService.modalShow();

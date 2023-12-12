@@ -309,13 +309,9 @@ public class AdminDAOImpl{
 	}
 	
 	// 체험단관리 - 광고테이블 insert
-	public int expAdInsert(String own_id, String ad_date) throws Exception {
-		logger.debug("DAO :  expAdInsert(String own_id, String ad_date)호출"+own_id+ad_date);
-		Map<String, Object> vo = new HashMap<String, Object>();
-		vo.put("own_id", own_id);
-		vo.put("ad_date", ad_date);
-		logger.debug("vo"+vo);
-		return sqlSession.insert(NAMESPACE+".expAdInsert", vo);
+	public int expAdInsert(String own_id) throws Exception {
+		logger.debug("DAO :  expAdInsert(String own_id)호출"+own_id);
+		return sqlSession.insert(NAMESPACE+".expAdInsert", own_id);
 	}
 	
 	// 체험단관리 - 반려 상태 업뎃
