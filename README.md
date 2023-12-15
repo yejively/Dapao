@@ -5,7 +5,7 @@
 
 - 프로젝트 기간 : 2023.10.20 ~ 2023.11.20
 - 개발 인원 : 6명(팀프로젝트)
-- 역할 : 관리자페이지, 체험단 결제, 메인 팝업
+- 맡은 역할 : 관리자페이지, 체험단 결제, 메인 팝업
 - 개발환경 : SpringFramework, SpringMVC
 - 사용 기술
 
@@ -42,7 +42,7 @@
 - [요구사항 명세서](https://docs.google.com/spreadsheets/d/1FFA3qOzB21SzG6Uqjx2orvPzGaxBtz3uDJz-5e2Ld9Q/edit?usp=sharing)
 - [ERD](https://drive.google.com/file/d/1LWLzUtz9KWl1qnz44q4ikGdRB20Zfci_/view?usp=drive_link)
 ---
-## 프로젝트 시연
+## 프로젝트 시연 - 담당한 기능(Front + Back)
 #### 관리자페이지 구현
 <img src="https://github.com/yejively/Dapao/assets/143873963/ff917605-86ac-4439-8426-737689c08acf.gif" width="800">
 
@@ -154,6 +154,14 @@
 	</select>
 ```
 </details>
+
+---
+
+## 성장한 부분
+- Spring Framework를 사용하면서 기존의 개발방식에서 벗어나 더 편리하고, 다양한 모듈과 기능을 사용해<br>
+프로젝트를 끝내면서 한 단계 더 성장할 수 있었다.
+- 1차 프로젝트 때와는 다르게 형상 관리 Git을 사용해 팀원들과 소스 코드를 관리하며 진행하였습니다.<br>
+Git에 대해 많이 알게 되고, 앞으로 Git을 유용하게 사용할 것입니다.
 
 
 
